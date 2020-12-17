@@ -1,0 +1,63 @@
+version: "3.8"
+services:
+   zk-1:
+      image: confluentinc/cp-zookeeper:6.0.0
+      network_mode: host
+      user: root:appuser
+      environment:
+         - ZOOKEEPER_SERVER_ID=1
+         - ZOOKEEPER_CLIENT_PORT=22181
+         - ZOOKEEPER_TICK_TIME=2000
+         - ZOOKEEPER_INIT_LIMIT=5
+         - ZOOKEEPER_SYNC_LIMIT=2
+         - ZOOKEEPER_ADMIN_SERVER_PORT=8028
+         - ZOOKEEPER_SERVERS=127.0.0.1:22888:23888;127.0.0.1:32888:33888;127.0.0.1:42888:43888
+#      entrypoint: bash -c "sh /etc/confluent/docker/run"
+   zk-2:
+      image: confluentinc/cp-zookeeper:6.0.0
+      network_mode: host
+      user: root:appuser
+      environment:
+         - ZOOKEEPER_SERVER_ID=2
+         - ZOOKEEPER_CLIENT_PORT=32181
+         - ZOOKEEPER_TICK_TIME=2000
+         - ZOOKEEPER_INIT_LIMIT=5
+         - ZOOKEEPER_SYNC_LIMIT=2
+         - ZOOKEEPER_ADMIN_SERVER_PORT=8038
+         - ZOOKEEPER_SERVERS=127.0.0.1:22888:23888;127.0.0.1:32888:33888;127.0.0.1:42888:43888
+#      entrypoint: bash -c "sleep 1 && sh /etc/confluent/docker/run"
+   zk-3:
+      image: confluentinc/cp-zookeeper:6.0.0
+      network_mode: host
+      user: root:appuser
+      environment:
+         - ZOOKEEPER_SERVER_ID=3
+         - ZOOKEEPER_CLIENT_PORT=42181
+         - ZOOKEEPER_TICK_TIME=2000
+         - ZOOKEEPER_INIT_LIMIT=5
+         - ZOOKEEPER_SYNC_LIMIT=2
+         - ZOOKEEPER_ADMIN_SERVER_PORT=8048
+         - ZOOKEEPER_SERVERS=127.0.0.1:22888:23888;127.0.0.1:32888:33888;127.0.0.1:42888:43888
+#      entrypoint: bash -c "sleep 2 && sh /etc/confluent/docker/run"
+   kafka-1:
+      image: confluentinc/cp-kafka:6.0.0
+      network_mode: "host"
+      environment:
+         - KAFKA_ZOOKEEPER_CONNECT=127.0.0.1:22181,127.0.0.1:32181,127.0.0.1:42181
+         - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://127.0.0.1:29092
+      entrypoint: bash -c "sleep 10 && /etc/confluent/docker/run"   
+   kafka-2:
+      image: confluentinc/cp-kafka:6.0.0
+      network_mode: "host"
+      environment:
+         - KAFKA_ZOOKEEPER_CONNECT=127.0.0.1:22181,127.0.0.1:32181,127.0.0.1:42181
+         - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://127.0.0.1:39092
+      entrypoint: bash -c "sleep 10 && /etc/confluent/docker/run"   
+   kafka-3:
+      image: confluentinc/cp-kafka:6.0.0
+      network_mode: "host"
+      environment:
+         - KAFKA_ZOOKEEPER_CONNECT=127.0.0.1:22181,127.0.0.1:32181,127.0.0.1:42181
+         - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://127.0.0.1:49092
+      entrypoint: bash -c "sleep 10 && /etc/confluent/docker/run"   
+
